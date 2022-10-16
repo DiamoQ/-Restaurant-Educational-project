@@ -37,7 +37,7 @@ window.addEventListener('DOMContentLoaded', () => {
           showTabContent(i);
         }
       });
-    }; 
+    };
   });
 
   // Timer
@@ -46,10 +46,10 @@ window.addEventListener('DOMContentLoaded', () => {
 
   function getTimeRemaining(endTime) {
     const t = Date.parse(endTime) - Date.parse(new Date()),
-          days = Math.floor(t / (1000 * 60 * 60 * 24)),
-          hours = Math.floor((t / (1000 * 60 * 60)) %  24),
-          minutes = Math.floor((t / (1000 * 60)) % 60),
-          seconds = Math.floor((t / 1000) % 60);
+      days = Math.floor(t / (1000 * 60 * 60 * 24)),
+      hours = Math.floor((t / (1000 * 60 * 60)) % 24),
+      minutes = Math.floor((t / (1000 * 60)) % 60),
+      seconds = Math.floor((t / 1000) % 60);
 
     return {
       'total': t,
@@ -57,7 +57,7 @@ window.addEventListener('DOMContentLoaded', () => {
       'hours': hours,
       'minutes': minutes,
       'seconds': seconds,
-    };      
+    };
   };
 
   function getZero(num) {
@@ -70,11 +70,11 @@ window.addEventListener('DOMContentLoaded', () => {
 
   function setClock(selector, endTime) {
     const timer = document.querySelector(selector),
-          days = timer.querySelector('#days'),
-          hours = timer.querySelector('#hours'),
-          minutes = timer.querySelector('#minutes'),
-          seconds = timer.querySelector('#seconds'),
-          timeInterval = setInterval(updateClock, 1000);
+      days = timer.querySelector('#days'),
+      hours = timer.querySelector('#hours'),
+      minutes = timer.querySelector('#minutes'),
+      seconds = timer.querySelector('#seconds'),
+      timeInterval = setInterval(updateClock, 1000);
 
     updateClock();
 
@@ -94,4 +94,39 @@ window.addEventListener('DOMContentLoaded', () => {
   };
 
   setClock('.timer', deadline);
+
+  // Modal
+
+  const button = document.querySelectorAll('button'),
+    modal = document.querySelector('.modal');
+
+
+  button.forEach(i => {
+    if (i.hasAttribute('data-modal')) {
+      i.addEventListener('click', (e) => {
+        e.preventDefault();
+
+        modal.style.display = 'block';
+        document.body.style.overflow = 'hidden';
+      });
+    }
+  });
+
+  function closeModal() {
+    modal.style.display = 'none';
+    document.body.style.overflow = '';
+  };
+
+
+  modal.addEventListener('click', e => {
+    if (e.target.classList.contains('modal') || e.target.hasAttribute('data-close')) {
+      closeModal();
+    }
+  });
+
+  document.addEventListener('keydown', e => {
+    if (e.code === 'Escape' && modal.style.display === 'block') {
+      closeModal();
+    }
+  });
 }); 
