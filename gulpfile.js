@@ -28,7 +28,7 @@ task('server', () => {
 task('scripts', () => {
   return src([
     'node_modules/jquery/dist/jquery.js',
-    'src/js/main.js'
+    'src/js/*.js'
   ])
   .pipe(concat('main.min.js'))
   .pipe(uglify())
@@ -65,6 +65,12 @@ task('copy:html', () => {
   .pipe(dest('dist/'))
   .pipe(reload({stream: true}))
 });
+
+// task('copy:server', () => {
+//   return src('src/*.php')
+//   .pipe(dest('dist/php/'))
+//   .pipe(reload({stream: true}))
+// });
 
 task('copy:video', () => {
   return src('src/video/*.*')
