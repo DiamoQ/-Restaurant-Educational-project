@@ -66,11 +66,12 @@ task('copy:html', () => {
   .pipe(reload({stream: true}))
 });
 
-// task('copy:server', () => {
-//   return src('src/*.php')
-//   .pipe(dest('dist/php/'))
+// task('copy:dbjson', () => {
+//   return src('src/db.json')
+//   .pipe(dest('dist/'))
 //   .pipe(reload({stream: true}))
 // });
+
 
 task('copy:video', () => {
   return src('src/video/*.*')

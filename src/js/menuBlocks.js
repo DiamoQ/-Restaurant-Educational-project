@@ -1,6 +1,6 @@
 "use strict";
 
-// Menu blocks
+// Menu blocks npx json-server db.json
 
 const menuBlock = document.querySelector('.menu__field .container')
 
@@ -42,26 +42,62 @@ class CreateMenuCard {
   }
 };
 
-new CreateMenuCard(
-  'img/tabs/vegy.jpg',
-  'Меню “Фитнес”',
-  'Меню “Фитнес” - это новый подход к приготовлению блюд: больше свежих овощей и фруктов. Продукт активных и здоровых людей. Это абсолютно новый продукт с оптимальной ценой и высоким качеством!',
-  10,
-  '.menu .container',
-).render();
-new CreateMenuCard(
-  'img/tabs/elite.jpg',
-  'Меню “Премиум”',
-  'В меню “Премиум” мы используем не только красивый дизайн упаковки, но и качественное исполнение блюд. Красная рыба, морепродукты, фрукты - ресторанное меню без похода в ресторан!',
-  20,
-  '.menu .container',
-  'menu__item',
-).render();
-new CreateMenuCard(
-  'img/tabs/post.jpg',
-  'Меню “Постное"',
-  'Меню “Постное” - это тщательный подбор ингредиентов: полное отсутствие продуктов животного происхождения, молоко из миндаля, овса, кокоса или гречки, правильное количество белков за счет тофу и импортных вегетарианских стейков.',
-  15,
-  '.menu .container',
-  'menu__item',
-).render();
+let getResource = async (url) => {
+  const res = await fetch(url);
+
+  if (!res.ok) {
+    throw new Error(`Could not fetch ${url}, status: ${res.status}`);
+  };
+
+  return await res.json();
+};
+
+
+// Динамическая верстка
+// getResource('http://localhost:3000/menu')
+//   .then(data => createCard(data))
+
+// function createCard(data) {
+//   data.forEach(({ picture, title, text, price }) => {
+//     const elementEx = document.createElement('div');
+
+//     elementEx.classList.add('...');
+//     elementEx.innerHTML = `...верстка`;
+
+//     document.querySelector('.menu .container').append(element);
+//   })
+// };
+
+
+
+getResource('http://localhost:3000/menu')
+  .then(data => {
+    data.forEach(({picture, title, text, price}) => {
+      new CreateMenuCard(picture, title, text, price, ".menu .container" ).render();
+    });
+  });
+
+
+// new CreateMenuCard(
+//   'img/tabs/vegy.jpg',
+//   'Меню “Фитнес”',
+//   'Меню “Фитнес” - это новый подход к приготовлению блюд: больше свежих овощей и фруктов. Продукт активных и здоровых людей. Это абсолютно новый продукт с оптимальной ценой и высоким качеством!',
+//   10,
+//   '.menu .container',
+// ).render();
+// new CreateMenuCard(
+//   'img/tabs/elite.jpg',
+//   'Меню “Премиум”',
+//   'В меню “Премиум” мы используем не только красивый дизайн упаковки, но и качественное исполнение блюд. Красная рыба, морепродукты, фрукты - ресторанное меню без похода в ресторан!',
+//   20,
+//   '.menu .container',
+//   'menu__item',
+// ).render();
+// new CreateMenuCard(
+//   'img/tabs/post.jpg',
+//   'Меню “Постное"',
+//   'Меню “Постное” - это тщательный подбор ингредиентов: полное отсутствие продуктов животного происхождения, молоко из миндаля, овса, кокоса или гречки, правильное количество белков за счет тофу и импортных вегетарианских стейков.',
+//   15,
+//   '.menu .container',
+//   'menu__item',
+// ).render();

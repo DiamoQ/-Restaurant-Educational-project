@@ -1,6 +1,6 @@
 .offer {
     padding: 70px 0 100px 0;
-    position: relative;
+    
     .container {
         display: flex;
         justify-content: space-between;
@@ -51,6 +51,7 @@
         display: flex;
         flex-direction: column;
         align-items: flex-end;
+       
         &-counter {
             display: flex;
             width: 180px;

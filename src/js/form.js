@@ -3,8 +3,8 @@
 //Form
 
 const forms = document.querySelectorAll('form'),
-      parentThnkModal = document.querySelector('.modal__dialog'),
-      formModal = document.querySelector('.modal__content');
+  parentThnkModal = document.querySelector('.modal__dialog'),
+  formModal = document.querySelector('.modal__content');
 
 const message = {
   loading: 'img/loading/spinner.svg',
@@ -13,10 +13,23 @@ const message = {
 };
 
 forms.forEach(item => {
-  postData(item);
+  bindPostData(item);
 });
 
-function postData(form) {
+let postData = async (url, data) => {
+  const res = await fetch(url, {
+    // mode: 'no-cors',
+    method: 'POST',
+    headers: {
+      'Content-type': 'application/json',
+    },
+    body: data,
+  });
+
+  return await res.json();
+};
+
+function bindPostData(form) {
   form.addEventListener('submit', (e) => {
     e.preventDefault();
 
@@ -28,30 +41,50 @@ function postData(form) {
           `;
     form.insertAdjacentElement('afterend', statusMessage);
 
-    const request = new XMLHttpRequest();
-
-    request.open('POST', 'http://php/');
-    // request.setRequestHeader('Content-type', 'multipart/form-data');
-
-    // const obj = {};
-    // formData.forEach(function(value, key) {
-    //   obj[key] = value;
-    // });
-    // const json = JSON.stringify(obj);
     const formData = new FormData(form);
 
-    request.send(formData);
+    const json = JSON.stringify(Object.fromEntries(formData.entries()));
 
-    request.addEventListener('load', () => {
-      if (request.status === 200) {
-        showThanksModal(message.success, parentThnkModal);
-        form.reset();
-        statusMessage.remove();
-      } else {
-        showThanksModal(message.failure, parentThnkModal);
-        statusMessage.remove();
-      }
+    // const object = {};
+    // formData.forEach(function(value, key) {
+    //   object[key] = value;
+    // });
+
+    postData('http://localhost:3000/requests', json)
+    .then((() => {
+      showThanksModal(message.success, parentThnkModal);
+      statusMessage.remove();
+    })).catch(() => {
+      showThanksModal(message.failure, parentThnkModal);
+      statusMessage.remove();
+    }).finally(() => {
+      form.reset();
     });
+
+    // const request = new XMLHttpRequest();
+
+    // request.open('POST', 'http://php/');
+    // // request.setRequestHeader('Content-type', 'multipart/form-data');
+
+    // // const obj = {};
+    // // formData.forEach(function(value, key) {
+    // //   obj[key] = value;
+    // // });
+    // // const json = JSON.stringify(obj);
+    // const formData = new FormData(form);
+
+    // request.send(formData);
+
+    // request.addEventListener('load', () => {
+    //   if (request.status === 200) {
+    //     showThanksModal(message.success, parentThnkModal);
+    //     form.reset();
+    //     statusMessage.remove();
+    //   } else {
+    //     showThanksModal(message.failure, parentThnkModal);
+    //     statusMessage.remove();
+    //   }
+    // });
 
   });
 };
@@ -125,3 +158,5 @@ function showThanksModal(message, item) {
     closeModal();
   }, 4000);
 };
+
+
