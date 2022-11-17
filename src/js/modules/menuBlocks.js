@@ -1,4 +1,6 @@
-"use strict";
+import {getResource} from '../services/services.js'
+
+function menuBlock() {
 
 // Menu blocks npx json-server db.json
 
@@ -41,17 +43,6 @@ class CreateMenuCard {
 
   }
 };
-
-let getResource = async (url) => {
-  const res = await fetch(url);
-
-  if (!res.ok) {
-    throw new Error(`Could not fetch ${url}, status: ${res.status}`);
-  };
-
-  return await res.json();
-};
-
 
 // Динамическая верстка
 // getResource('http://localhost:3000/menu')
@@ -101,3 +92,6 @@ getResource('http://localhost:3000/menu')
 //   '.menu .container',
 //   'menu__item',
 // ).render();
+};
+
+export default menuBlock;

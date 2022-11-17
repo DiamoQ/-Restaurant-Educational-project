@@ -1,4 +1,4 @@
-'use strict';
+function calculator() {
 const result = document.querySelector('.calculating__result span');
 
 let sex, height, weight, age, ratio;
@@ -186,3 +186,6 @@ getDynamicInformation('#age');
 //     chooseBlock(e.target, activityItems);
 //   };
 // });
+};
+
+export default calculator;

@@ -1,8 +1,12 @@
-"use strict";
+import {closeModal, openModal} from './modalWindow';
+import {postData} from '../services/services.js';
 
+
+function form(formSelector, modalTimerId) {
+ 
 //Form
 
-const forms = document.querySelectorAll('form'),
+const forms = document.querySelectorAll(formSelector),
   parentThnkModal = document.querySelector('.modal__dialog'),
   formModal = document.querySelector('.modal__content');
 
@@ -15,19 +19,6 @@ const message = {
 forms.forEach(item => {
   bindPostData(item);
 });
-
-let postData = async (url, data) => {
-  const res = await fetch(url, {
-    // mode: 'no-cors',
-    method: 'POST',
-    headers: {
-      'Content-type': 'application/json',
-    },
-    body: data,
-  });
-
-  return await res.json();
-};
 
 function bindPostData(form) {
   form.addEventListener('submit', (e) => {
@@ -139,8 +130,8 @@ function bindPostData(form) {
 //  ThanksModal
 
 function showThanksModal(message, item) {
-  openModal();
-  if (modal) {
+  openModal('.modal', modalTimerId);
+  if ('.modal') {
     formModal.style.display = 'none';
   };
 
@@ -155,8 +146,11 @@ function showThanksModal(message, item) {
   setTimeout(() => {
     parentThnkModal.removeChild(thanksModal);
     formModal.style.display = 'block';
-    closeModal();
+    closeModal('.modal');
   }, 4000);
 };
+};
+
+export default form;
 
 
